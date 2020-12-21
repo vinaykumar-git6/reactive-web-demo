@@ -15,16 +15,15 @@ build:
   stage: build
   script:
     - docker build -t vinaykumar6/reactive-web-demo-aws .
-    - docker push vinaykumar6/reactive-web-demo-aws
-
+    
 test:
   stage: test
   script:
-    - ./mvnw install
+    - docker run vinaykumar6/reactive-web-demo-aws-test -f Dockerfile.dev
     
 release:
   stage: release
   script:
-    - docker pull vinaykumar6/reactive-web-demo-aws
+    - docker push vinaykumar6/reactive-web-demo-aws
   only:
     - master
