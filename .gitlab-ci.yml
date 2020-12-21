@@ -18,7 +18,7 @@ build:
 test:
   stage: test
   script:
-    - docker build -t vinaykumar6/reactive-web-demo-aws-test -f Dockerfile.dev
+    - docker build -t vinaykumar6/reactive-web-demo-aws-test -f Dockerfile.dev .
     
 release:
   stage: release
