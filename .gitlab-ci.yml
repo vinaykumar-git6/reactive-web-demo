@@ -20,14 +20,11 @@ build:
 test:
   stage: test
   script:
-    - docker pull $TEST_IMAGE
-    - docker run $TEST_IMAGE npm test
-
+    - ./mvnw install
+    
 release:
   stage: release
   script:
-    - docker pull $TEST_IMAGE
-    - docker tag $TEST_IMAGE $RELEASE_IMAGE
-    - docker push $RELEASE_IMAGE
+    - docker pull vinaykumar6/reactive-web-demo-aws
   only:
     - master
