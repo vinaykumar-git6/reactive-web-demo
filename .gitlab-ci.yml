@@ -1,31 +1,32 @@
-image: maven:latest
+image: docker:latest
+services:
+- docker:dind
 
 stages:
-  - build
-  - test
-  - run
+- build
+- test
+- release
 
-variables:
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-
-cache:
-  paths:
-    - .m2/repository/
-    - target/
+before_script:
+  - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
 
 build:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS compile
+    - docker build -t vinaykumar6/reactive-web-demo-aws .
+    - docker push vinaykumar6/reactive-web-demo-aws
 
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS test
+    - docker pull $TEST_IMAGE
+    - docker run $TEST_IMAGE npm test
 
-run:
-  stage: run
+release:
+  stage: release
   script:
-    - mvn $MAVEN_CLI_OPTS package
-    - mvn $MAVEN_CLI_OPTS exec:java -Dexec.mainClass="com.example.app.App"
+    - docker pull $TEST_IMAGE
+    - docker tag $TEST_IMAGE $RELEASE_IMAGE
+    - docker push $RELEASE_IMAGE
+  only:
+    - master
