@@ -1,0 +1,28 @@
+spring:
+  profiles:    active: docker---
+spring:  profiles: docker
+  data.mongodb:
+    host: mongo-cluster-ip-service
+    port: 27017    database: local
+  
+---
+spring:
+  profiles: nonprod
+  data.mongodb:
+    host: localhost
+    port: 27017
+    database: local
+  
+---
+spring:
+  profiles: prod
+  data.mongodb:
+    host: localhost
+    port: 27017
+    database: local
+    
+---
+
+spring:
+  profiles: test
+ 
