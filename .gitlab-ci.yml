@@ -9,8 +9,7 @@ stages:
 
 before_script:
   - chmod a+x ./mvnw
-  - echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin
- 
+
 build:
   stage: build
   script:
@@ -19,11 +18,12 @@ build:
 test:
   stage: test
   script:
-    - docker run vinaykumar6/reactive-web-demo-aws-test -f Dockerfile.dev
+    - docker build vinaykumar6/reactive-web-demo-aws-test -f Dockerfile.dev
     
 release:
   stage: release
   script:
+    - echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin
     - docker push vinaykumar6/reactive-web-demo-aws
   only:
     - master
