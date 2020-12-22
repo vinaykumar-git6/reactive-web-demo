@@ -6,6 +6,7 @@ stages:
 - build
 - test
 - release
+- deploy
 
 before_script:
   - chmod a+x ./mvnw
