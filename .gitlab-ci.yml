@@ -15,15 +15,32 @@ build:
   script:
     - docker build -t vinaykumar6/reactive-web-demo-aws .
     
-test:
-  stage: test
-  script:
-    - docker build -t vinaykumar6/reactive-web-demo-aws-test -f Dockerfile.dev .
+#test:
+ # stage: test
+  #script:
+   # - docker build -t vinaykumar6/reactive-web-demo-aws-test -f Dockerfile.dev .
     
 release:
   stage: release
   script:
     - echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin
     - docker push vinaykumar6/reactive-web-demo-aws
-  only:
-    - master
+    
+deploy:
+    stage: deploy
+    environment: production
+    # Pull docker image
+    image: vinaykumar6/reactive-web-demo-aws
+    image: mongo:latest
+    # Setup AWS CLI to have proper credential keys
+    before_script:
+        - 'mkdir ~/.aws/'
+        - 'touch ~/.aws/credentials'
+        - 'printf "[eb-cli]\naws_access_key_id = %s\naws_secret_access_key = %s\n" "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials'
+    # Run deployment using EB CLI deploy on master branch
+    script:
+        - 'git checkout master'
+        - 'eb deploy $AWS_EB_ENVIRONMENT'
+    # Ensure to run deployment only on master branch
+    only:
+        - master
