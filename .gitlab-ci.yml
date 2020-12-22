@@ -22,8 +22,9 @@ build:
     
 release:
   stage: release
-  script:
+  before_script:
     - echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin
+  script:
     - docker push vinaykumar6/reactive-web-demo-aws
     
 deploy:
