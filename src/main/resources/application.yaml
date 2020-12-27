@@ -1,5 +1,5 @@
 spring:
-  profiles:    active: test---
+  profiles:    active: docker---
 spring:  profiles: docker
   data.mongodb:
     host: mongo-cluster-ip-service
