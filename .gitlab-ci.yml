@@ -20,6 +20,9 @@ stages:
   - incremental rollout 100%
   - performance
   - cleanup
+  
+before_script:
+  - chmod a+x ./mvnw
 
 include:
   - template: Jobs/Build.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Build.gitlab-ci.yml
