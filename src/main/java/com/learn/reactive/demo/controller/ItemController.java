@@ -42,6 +42,13 @@ public class ItemController {
 		
 	}
 	
+	@GetMapping("")
+	public String getOneItems(){
+		
+		return "health check";
+		
+	}
+	
 	@PostMapping(ItemConstants.ITEM_END_POINT_V1)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Mono<Item> createItem(@RequestBody Item item){
