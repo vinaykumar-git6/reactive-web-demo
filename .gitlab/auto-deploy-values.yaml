@@ -1,0 +1,3 @@
+service:
+  internalPort: 8080
+  externalPort: 8080
